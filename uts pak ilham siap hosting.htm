@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthyBite Catering</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #40916c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #2d6a4f;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            margin: 0 10px;
+        }
+        nav a:hover {
+            background-color: #1b4332;
+        }
+        .hero-section {
+            background: url("https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80") no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .hero-buttons a {
+            background-color: #40916c;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 10px;
+        }
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 15px;
+        }
+        .button {
+            background-color: #40916c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .button:hover {
+            background-color: #2d6a4f;
+        }
+        .cart-section {
+            background: #e9f5ec;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .payment-methods-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .payment-methods-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .payment-button {
+            background-color: #40916c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .payment-button:hover {
+            background-color: #2d6a4f;
+        }
+        .close-modal {
+            background-color: #e63946;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .close-modal:hover {
+            background-color: #d62c1a;
+        }
+        .package-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+        }
+        .package-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .choose-button {
+            background-color: #40916c;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .choose-button:hover {
+            background-color: #2d6a4f;
+        }
+    </style>
+    <style type="text/css">
+
+
+   /* Styling untuk Formulir Ulasan */
+#reviews {
+    font-family: Arial, sans-serif;
+}
+
+.review-form {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+}
+
+.star-rating input:checked ~ label {
+    color: gold;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Styling untuk Daftar Ulasan */
+.reviews-list {
+    margin-top: 30px;
+}
+
+.review-item {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.reviewer-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.star-rating span {
+    font-size: 18px;
+    color: gold;
+}
+
+.review-text {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HealthyBite Catering</h1>
+    </header>
+    <nav>
+        <a href="#home">Beranda</a>
+        <a href="#menu">Menu</a>
+        <a href="#catering">Paket Catering</a>
+        <a href="#cart">Keranjang</a>
+        <a href="#payment">Pembayaran</a>
+        <a href="#reviews">Ulasan</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <h1>Makan Sehat, Hidup Nikmat!</h1>
+        <p>Pilih menu favoritmu, atur catering mingguan atau bulanan, dan kami antar ke depan pintu. Praktis, sehat, dan pastinya enak!</p>
+        <div class="hero-buttons">
+            <a href="#menu">Lihat Menu</a>
+            <a href="#catering">Langganan Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <h2 class="text-center">Menu Makanan & Minuman</h2>
+        <div class="menu-container">
+            <div class="card">
+                <img src="C:/Users/62898/Pictures/uts web/makanan 83.jpg" alt="Salad Ayam Sehat" width="612" height="408">
+                <div class="card-body">
+                    <h3 class="card-title">Salad Ayam Sehat</h3>
+                    <p class="card-price">Rp 45.000</p>
+                    <button class="button" onclick="addToCart('Salad Ayam Sehat', 45000)">+ Tambah ke Keranjang</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="C:/Users/62898/Pictures/uts web/makanan89.jpg" alt="Smoothie Bowl" width="612" height="408">
+                <div class="card-body">
+                    <h3 class="card-title">Smoothie Bowl</h3>
+                    <p class="card-price">Rp 50.000</p>
+                    <button class="button" onclick="addToCart('Smoothie Bowl', 50000)">+ Tambah ke Keranjang</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="C:/Users/62898/Pictures/nasi merah.jpg" alt="Nasi Merah dan Ayam Panggang" width="612" height="459">
+                <div class="card-body">
+                    <h3 class="card-title">Nasi Merah & Ayam Panggang</h3>
+                    <p class="card-price">Rp 55.000</p>
+                    <button class="button" onclick="addToCart('Nasi Merah & Ayam Panggang', 55000)">+ Tambah ke Keranjang</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paket Catering Section -->
+    <section id="catering" style="background: #e9f5ec; padding: 60px 20px;">
+        <div style="max-width: 1200px; margin: auto; text-align: center;">
+            <h2>Paket Catering</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+                <!-- Paket Mingguan -->
+                <div class="package-card">
+                    <img src="C:/Users/62898/Pictures/catering makanan 1.jpg" alt="Paket Catering Mingguan" width="612" height="349">
+                    <div class="package-body">
+                        <h3 class="package-title">Paket Mingguan</h3>
+                        <p class="package-detail">7 Hari | 2x Makan per Hari</p>
+                        <p class="package-price">Rp 850.000</p>
+                        <p class="package-detail">Total Kalori: ± 1.200 - 1.500 kcal/hari</p>
+                        <ul>
+                            <li>Senin: Salad Ayam + Smoothie Bowl</li>
+                            <li>Selasa: Nasi Merah & Ayam Panggang + Jus Detox</li>
+                            <li>Rabu: Quinoa Bowl + Infused Water</li>
+                            <li>Kamis: Grilled Salmon + Salad Buah</li>
+                            <li>Jumat: Chicken Wrap + Green Juice</li>
+                            <li>Sabtu: Veggie Pasta + Kombucha</li>
+                            <li>Minggu: Low-carb Rice + Beef Teriyaki</li>
+                        </ul>
+                        <button class="choose-button" onclick="addToCart('Paket Mingguan', 850000)">Pilih Paket</button>
+                    </div>
+                </div>
+                <!-- Paket Bulanan -->
+                <div class="package-card">
+                    <img src="menu catreing.jpg""" alt="Paket Catering Bulanan" width="1024" height="683">
+                    <div class="package-body">
+                        <h3 class="package-title">Paket Bulanan</h3>
+                        <p class="package-detail">30 Hari | 2x Makan per Hari</p>
+                        <p class="package-price">Rp 3.200.000</p>
+                        <p class="package-detail">Total Kalori: ± 1.200 - 1.500 kcal/hari</p>
+                        <ul>
+                            <li>Hari 1-7: Variasi Salad, Smoothie, Grilled Chicken</li>
+                            <li>Hari 8-14: Quinoa Rice, Vegan Curry, Detox Juices</li>
+                            <li>Hari 15-21: Asian Bowl, Grilled Salmon, Fruit Salad</li>
+                            <li>Hari 22-30: Healthy Pasta, Grilled Beef, Green Smoothies</li>
+                        </ul>
+                        <button class="choose-button" onclick="addToCart('Paket Bulanan', 3200000)">Pilih Paket</button>
+                    </div>
+                </div>
+                <!-- Paket Bulanan Premium -->
+                <div class="package-card">
+                    <img src="menu catering 2.jpg""" alt="Paket Premium" width="612" height="459">
+                    <div class="package-body">
+                        <h3 class="package-title">Paket Bulanan Premium</h3>
+                        <p class="package-detail">30 Hari | 3x Makan per Hari + Snack</p>
+                        <p class="package-price">Rp 4.500.000</p>
+                        <p class="package-detail">Total Kalori: ± 1.500 - 1.800 kcal/hari</p>
+                        <ul>
+                            <li>Sarapan: Overnight Oats / Smoothie Bowl</li>
+                            <li>Makan Siang: Quinoa Bowl / Grilled Chicken</li>
+                            <li>Makan Malam: Low-carb Rice / Baked Salmon</li>
+                            <li>Snack: Almond, Energy Bar, Buah Segar</li>
+                        </ul>
+                        <button class="choose-button" onclick="addToCart('Paket Bulanan Premium', 4500000)">Pilih Paket</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keranjang Belanja Section -->
+    <section id="cart" class="cart-section">
+        <h2>Keranjang Belanja</h2>
+        <div id="cart-items">
+            <!-- Items in cart will appear here -->
+        </div>
+        <div id="cart-total">
+            <h3>Total: Rp <span id="total-price">0</span></h3>
+        </div>
+        <button id="proceed-to-payment" class="button" onclick="showPaymentMethods()">Lanjutkan ke Pembayaran</button>
+    </section>
+
+    <!-- Payment Methods Modal -->
+    <section id="payment-methods" class="payment-methods-modal">
+        <div class="payment-methods-content">
+            <h3>Pilih Metode Pembayaran</h3>
+            <button class="payment-button" onclick="payWithOVO()">OVO</button>
+            <button class="payment-button" onclick="payWithGoPay()">GoPay</button>
+            <button class="payment-button" onclick="payWithBRI()">Transfer BRI</button>
+            <button class="close-modal" onclick="closePaymentModal()">Tutup</button>
+        </div>
+    </section>
+
+    <script>
+        let cart = [];
+
+        // Function to add item to cart
+        function addToCart(itemName, itemPrice) {
+            const item = { name: itemName, price: itemPrice };
+            cart.push(item);
+            updateCart();
+        }
+
+        // Function to update the cart display
+        function updateCart() {
+            let cartItemsContainer = document.getElementById("cart-items");
+            cartItemsContainer.innerHTML = ""; // Clear previous items
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement("div");
+                itemElement.classList.add("cart-item");
+                itemElement.innerHTML = `
+                    <span>${item.name}</span>
+                    <span>Rp ${item.price}</span>
+                    <button class="button" onclick="removeFromCart(${index})">Hapus</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                totalPrice += item.price;
+            });
+
+            // Update the total price
+            document.getElementById("total-price").textContent = totalPrice.toLocaleString();
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Function to show the payment modal
+        function showPaymentMethods() {
+            document.getElementById("payment-methods").style.display = "flex";
+        }
+
+        // Function to close the payment modal
+        function closePaymentModal() {
+            document.getElementById("payment-methods").style.display = "none";
+        }
+
+        // Placeholder payment methods
+        function payWithOVO() {
+            alert("Pembayaran menggunakan OVO");
+        }
+
+        function payWithGoPay() {
+            alert("Pembayaran menggunakan GoPay");
+        }
+
+        function payWithBRI() {
+            alert("Pembayaran melalui transfer BRI");
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- Catering Subscription Section -->
+<section id="catering" style="padding: 60px 20px; background-color: #ffffff;">
+    <div style="max-width: 800px; margin: auto; text-align: center;">
+        <h2 style="color: #1b4332; font-size: 2.5em;">Langganan Catering Sehat</h2>
+        <p style="margin: 20px 0; font-size: 1.2em;">Lengkapi data diri anda untuk pengiriman</p>
+
+        <form style="background: #f1f5f2; padding: 30px; border-radius: 10px; margin-top: 30px; text-align: left;">
+            <div style="margin-bottom: 20px;">
+                <label for="nama" style="font-weight: bold;">Nama Lengkap:</label><br>
+                <input type="text" id="nama" name="nama" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="telepon" style="font-weight: bold;">Nomor Telepon:</label><br>
+                <input type="tel" id="telepon" name="telepon" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label for="alamat" style="font-weight: bold;">Alamat Pengiriman:</label><br>
+                <textarea id="alamat" name="alamat" rows="3" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+            </div>
+
+            <div style="text-align: center;">
+                <button type="submit" style="background-color: #40916c; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 1.2em; cursor: pointer;">Langganan Sekarang</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+
+  <section id="reviews" style="background: #f1f1f1; padding: 40px 20px;">
+    <div style="max-width: 1200px; margin: auto;">
+        <h2>Ulasan Pelanggan</h2>
+
+        <!-- Formulir Ulasan -->
+        <div class="review-form">
+            <h3>Tinggalkan Ulasan Anda</h3>
+            <form id="reviewForm">
+                <label for="rating">Rating:</label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                    <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                    <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                    <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                    <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+                </div>
+
+                <label for="reviewText">Tulis Ulasan:</label>
+                <textarea id="reviewText" name="reviewText" rows="4" placeholder="Tulis ulasan Anda..."></textarea>
+
+                <button type="submit" class="submit-btn">Kirim Ulasan</button>
+            </form>
+        </div>
+
+        <hr>
+
+        <!-- Daftar Ulasan -->
+        <div class="reviews-list">
+            <h3>Ulasan Pengguna</h3>
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="reviewer-name">Andi</span>
+                    <div class="star-rating">
+                        <span>★★★★☆</span>
+                    </div>
+                </div>
+                <p class="review-text">"Makanan enak dan sangat bergizi. Sangat cocok untuk diet sehat!"</p>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="reviewer-name">Budi</span>
+                    <div class="star-rating">
+                        <span>★★★★★</span>
+                    </div>
+                </div>
+                <p class="review-text">"Paket catering mingguan sangat membantu saya dalam menjaga pola makan sehat!"</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('reviewForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Mengambil rating dan teks ulasan
+    const rating = document.querySelector('input[name="rating"]:checked')?.value;
+    const reviewText = document.getElementById('reviewText').value;
+
+    // Validasi input
+    if (!rating || !reviewText) {
+        alert("Tolong beri rating dan tulis ulasan terlebih dahulu.");
+        return;
+    }
+
+    // Menambahkan ulasan ke dalam daftar
+    const reviewItem = document.createElement('div');
+    reviewItem.classList.add('review-item');
+
+    const reviewerName = "Pelanggan Baru";  // Nama bisa diganti dengan data pengguna yang login (opsional)
+    const starRating = '★'.repeat(rating) + '☆'.repeat(5 - rating);  // Menampilkan bintang berdasarkan rating
+
+    reviewItem.innerHTML = `
+        <div class="review-header">
+            <span class="reviewer-name">${reviewerName}</span>
+            <div class="star-rating">
+                <span>${starRating}</span>
+            </div>
+        </div>
+        <p class="review-text">${reviewText}</p>
+    `;
+
+    // Menambahkan review ke daftar ulasan
+    document.querySelector('.reviews-list').appendChild(reviewItem);
+
+    // Kosongkan form setelah pengiriman
+    document.getElementById('reviewText').value = '';
+    document.querySelector('input[name="rating"]:checked').checked = false;
+});
+
+</script>
+
+<script>
+// Menyimpan ulasan ke localStorage
+function saveReviewToLocalStorage(rating, reviewText) {
+    const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    reviews.push({ rating, reviewText });
+    localStorage.setItem('reviews', JSON.stringify(reviews));
+}
+
+</script>
+
+<script>
+// Menampilkan ulasan dari localStorage saat halaman dimuat
+window.onload = function() {
+    const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+    reviews.forEach(review => {
+        const reviewItem = document.createElement('div');
+        reviewItem.classList.add('review-item');
+
+        const starRating = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+
+        reviewItem.innerHTML = `
+            <div class="review-header">
+                <span class="reviewer-name">Pelanggan</span>
+                <div class="star-rating">
+                    <span>${starRating}</span>
+                </div>
+            </div>
+            <p class="review-text">${review.reviewText}</p>
+        `;
+
+        document.querySelector('.reviews-list').appendChild(reviewItem);
+    });
+};
+
+</script>
+
+
+
+
+
+
